@@ -1,17 +1,37 @@
 package awsyoo.dev;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class Main {
     static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome!"));
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("awsyoo.dev");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
-        }
+        SessionFactory sessionFactory = context.getBean(SessionFactory.class);
+
+        Session session = sessionFactory.openSession();
+
+        Student student1 = new Student("Vasya", 22);
+        Student student2 = new Student("Nikita", 20);
+
+        session.beginTransaction();
+        session.persist(student1);
+        session.persist(student2);
+        session.getTransaction().commit();
+
+        Student studentById1 = session.get(Student.class, 1L);
+
+        System.out.println(studentById1);
+
+        Student studentById2 = session.createQuery(
+                        "select s from Student s where s.id = :id", Student.class)
+                .setParameter("id", 2)
+                .getSingleResult();
+
+        System.out.println(studentById1);
+        System.out.println(studentById2);
+
+        session.close();
     }
 }
