@@ -10,8 +10,10 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(name = "student_name", unique = true, nullable = false)
     private String name;
-    
+
+    @Column(name = "student_age")
     private Integer age;
 
     public Student() {
