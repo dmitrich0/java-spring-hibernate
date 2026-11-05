@@ -16,6 +16,7 @@ public class HibernateConfiguration {
                 .addAnnotatedClass(Student.class)
                 .addAnnotatedClass(Profile.class)
                 .addAnnotatedClass(Group.class)
+                .addAnnotatedClass(Course.class)
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
                 .setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/postgres")
                 .setProperty("hibernate.connection.username", "postgres")
